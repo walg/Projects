@@ -1,5 +1,4 @@
-'''This module creates a class gameboard that initializes the gameboard and
-handles all changes to it as the game progresses'''
+'''This module creates the tile bag from which pieces are drawn'''
 import random
 score_table = {'a': 1, 'b': 3, 'c': 3, 'd': 2, 'e': 1,
         'f': 4, 'g': 2, 'h': 4, 'i': 1, 'j': 8,
