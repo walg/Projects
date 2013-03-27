@@ -12,8 +12,8 @@ until there are no more possible flips on each side or the game board is filled.
 
 The project itself, when run from the OthelloGUI.py module, initializes a frame that reads in 5 information fields:
 
--The board length: must be an even integer between 4 and 16 -The board width: must be an even integer between 4 and 16
--The starting color: which player moves first
--The seed color: which color starts the square of colors in the middle of the board at the start 
--The scoring type: normal scoring, in which the player with the most points wins, or opposite scoring, 
+                   -The board length: must be an even integer between 4 and 16 -The board width: must be an even integer between 4 and 16
+                   -The starting color: which player moves first
+                   -The seed color: which color starts the square of colors in the middle of the board at the start 
+                   -The scoring type: normal scoring, in which the player with the most points wins, or opposite scoring, 
                    in which the player with the fewest points wins.
