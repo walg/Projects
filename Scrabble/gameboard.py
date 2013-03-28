@@ -1,4 +1,3 @@
-import sys
 from tkinter import *
 import tiles
 import player
