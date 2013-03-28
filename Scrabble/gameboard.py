@@ -4,6 +4,7 @@ import player
 import validation
 import copy
 #gamestate contains info on the game as it progresses
+'''The game starts with a pop-up window that asks how many players (2-4)'''
 
 #Standard board dimensions are 15x15,which won't be hardcoded but are not meant
 #to be changed, as it messes with the scoring
@@ -47,6 +48,7 @@ class gamestate:
         self._board[column][row] = letter
 
     def print_board(self):
+        '''used to create a user-friendly representation of the board'''
         board_string = ''
         for y in range(BOARD_COLUMNS):
             for x in range(BOARD_ROWS):
