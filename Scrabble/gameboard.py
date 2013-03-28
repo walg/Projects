@@ -136,7 +136,7 @@ class GUI:
             self._gamestate.make_move(column,row,word,movetype)
             self.button.config(state=DISABLED)
             self.turnover.config(state=NORMAL)
-            self.exchange_pieces_button.config(state=DISABLED)
+            self.exchange_button.config(state=DISABLED)
             self._current_player.exchange_pieces(word)
         except:
             self._error.set('ERROR: INVALID MOVE')
@@ -155,7 +155,7 @@ class GUI:
            '''
         self.button.config(state=NORMAL)
         self.turnover.config(state=DISABLED)
-        self.exchange_pieces_button.config(state=NORMAL)
+        self.exchange_button.config(state=NORMAL)
         
         self._current_player = self._set_new_player()
         
@@ -166,7 +166,7 @@ class GUI:
     def exchange_pieces(self):
         self.button.config(state=DISABLED)
         self.turnover.config(state=NORMAL)
-        self.exchange_pieces_button.config(state=DISABLED)
+        self.exchange_button.config(state=DISABLED)
 
         word = self._exchange_pieces_var.get()
         self._current_player.exchange_pieces(word)
@@ -304,7 +304,8 @@ class GUI:
         self.pointlabel = Label(self.gameinfo,text='Player Points:').grid(column=0,row=2)
         self.pointfield = Label(self.gameinfo,textvariable = self._score).grid(column=1,row=2)
 
-        self.exchange_pieces_button = Button(self.gameinfo,text = 'Exchange Pieces',command = self.exchange_pieces).grid(column=0,row=3)
+        self.exchange_button = Button(self.gameinfo,text = 'Exchange Pieces',command = self.exchange_pieces)
+        self.exchange_button.grid(column=0,row=3)
         self.exchange_pieces_entry = Entry(self.gameinfo,textvariable= self._exchange_pieces_var,width=10).grid(column=1,row=3)
         
         return self.gameinfo
