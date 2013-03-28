@@ -20,18 +20,11 @@ class Player:
         return string
 
     def exchange_pieces(self,word):
-        '''given a word that is played, takes those pieces out of play and
-           gets new pieces'''
+        '''given a word that is played, takes those pieces out of play, adds
+           them back to the bag and draws new pieces'''
         pieces = list(word)
         for item in pieces:
             self._current_hand.remove(item)
             self._current_hand.append(self._tiles.draw_piece())
+            self._tiles._add_value(item)
             
-    
-    
-'''
-x = Player(tiles.Tiles())
-print(x._current_hand)
-print(x._tiles.tile_count())
-print(x.current_hand())
-'''

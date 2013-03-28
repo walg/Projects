@@ -1,3 +1,4 @@
+import sys
 from tkinter import *
 import tiles
 import player
@@ -69,7 +70,7 @@ class PlayerNumbers:
         self.label.grid(row=0,column=0)
 
         self.spinbox = Spinbox(
-            self._player_number,from_ = 2,to = 4)
+            self._player_number,from_ = 2,to = 4,width=5)
         self.spinbox.grid(row=0,column=1)
 
         self.ok_button = Button(
@@ -100,12 +101,14 @@ class GUI:
         self.root = Tk()
         self.player_list = []
         self._current_player = None
+        self.tiles = tiles.Tiles()
 
         #move data fields
         self._movetype = StringVar()
         self._word = StringVar()
         self._game = StringVar()
         self._error = StringVar()
+        self._exchange_pieces_var = StringVar()
 
         #game data fields
         self._turn = StringVar()
@@ -114,7 +117,8 @@ class GUI:
         
     def board(self):
         return self._board
-    
+
+    ### BUTTON PRESS ###
     def submit_move(self):
         '''final button user pushes to make a move after taking in
             -movetype
@@ -129,18 +133,18 @@ class GUI:
         print(self._validate_letters())
         print(self._validate_dictionary(column,row,word,movetype))'''
         try:
-            '''makes sure that the player is making a move only with their current letters
-            count the score from words created and set the word'''
-            #if self._validate_letters():
             self._gamestate.make_move(column,row,word,movetype)
-            self._game.set(self._gamestate.print_board())
             self.button.config(state=DISABLED)
             self.turnover.config(state=NORMAL)
-            self._current_player.exchange_pieces()
+            self.exchange_pieces_button.config(state=DISABLED)
+            self._current_player.exchange_pieces(word)
         except:
             self._error.set('ERROR: INVALID MOVE')
         else:
             self._error.set('VALID MOVE')
+        finally:
+            self._game.set(self._gamestate.print_board())
+            
             
     def turn_over(self):
         '''hands the move over to the next player
@@ -150,13 +154,23 @@ class GUI:
            -resets all variable fields(word entry, coordinates, movetype)
            '''
         self.button.config(state=NORMAL)
+        self.turnover.config(state=DISABLED)
+        self.exchange_pieces_button.config(state=NORMAL)
+        
         self._current_player = self._set_new_player()
         
         self._turn.set(self._current_player._player_number)
         self._score.set('In Progress')
         self._letters.set(self._current_player.current_hand())
 
-        self.turnover.config(state=DISABLED)
+    def exchange_pieces(self):
+        self.button.config(state=DISABLED)
+        self.turnover.config(state=NORMAL)
+        self.exchange_pieces_button.config(state=DISABLED)
+
+        word = self._exchange_pieces_var.get()
+        self._current_player.exchange_pieces(word)
+        self._set_new_player()        
 
     
 
@@ -169,6 +183,7 @@ class GUI:
         except:
             return self.player_list[0]
     def _validate_letters(self):
+        '''validates that the user has sufficient letters to make the move'''
         list_of_letters = list(self._word.get())
 
         #compiles dictionary with values of letters of the word
@@ -208,7 +223,8 @@ class GUI:
         self.dialog = PlayerNumbers()
         self.dialog.show()
 
-        self.player_list = [player.Player(tiles.Tiles(),x+1) for x in range(int(self.dialog.number))]
+        #create players
+        self.player_list = [player.Player(self.tiles,x+1) for x in range(int(self.dialog.number))]
         self._current_player = self.player_list[0]
         self._turn.set(self._current_player._player_number)
         self._score.set('In Progress')
@@ -288,6 +304,9 @@ class GUI:
         self.pointlabel = Label(self.gameinfo,text='Player Points:').grid(column=0,row=2)
         self.pointfield = Label(self.gameinfo,textvariable = self._score).grid(column=1,row=2)
 
+        self.exchange_pieces_button = Button(self.gameinfo,text = 'Exchange Pieces',command = self.exchange_pieces).grid(column=0,row=3)
+        self.exchange_pieces_entry = Entry(self.gameinfo,textvariable= self._exchange_pieces_var,width=10).grid(column=1,row=3)
+        
         return self.gameinfo
 
 y=gamestate(3)
