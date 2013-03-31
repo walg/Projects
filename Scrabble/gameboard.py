@@ -130,9 +130,9 @@ class GUI:
         row = int(self.spinbox1.get())
         movetype = self._movetype.get()
         word = self._word.get()
-        '''
+       
         print(self._validate_letters())
-        print(self._validate_dictionary(column,row,word,movetype))'''
+        print(self._validate_dictionary(column,row,word,movetype))
         try:
             self._gamestate.make_move(column,row,word,movetype)
             self.button.config(state=DISABLED)
