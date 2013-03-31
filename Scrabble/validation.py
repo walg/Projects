@@ -42,7 +42,10 @@ def _check_vertical(x,y,board):
             if _check_space(x,y+z,board) == None or _check_space(x,y+z,board) == False:
                 break
             word += _check_space(x,y+z,board)
-            vertical_scanned_list.append((x,y+z))
+            coord = (x,y+z)
+            #prevents duplicate additions of scanned coordinates
+            if coord not in vertical_scanned_list:
+                vertical_scanned_list.append(coord)
         except:
             break
     return word
