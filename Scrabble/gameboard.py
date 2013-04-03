@@ -188,12 +188,9 @@ class GUI:
         list_of_letters = list(self._word.get())
 
         #compiles dictionary with values of letters of the word
-        letter_dict = {}
-        for item in self._current_player._current_hand:
-            if item not in letter_dict:
-                letter_dict[item] = 1
-            else:
-                letter_dict[item] += 1
+        letter_dict = {item: 1 for item in list_of_letters}
+        for item in list_of_letters:
+            letter_dict[item] += 1
 
         #checks the word dictionary against current letters in hand
         for item in list_of_letters:
