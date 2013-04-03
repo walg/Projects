@@ -181,22 +181,23 @@ class GUI:
         try:
             result = self.player_list[previous_number]
             return result
-        except:
+        except: #reached the end of player list, go back to beginning
             return self.player_list[0]
     def _validate_letters(self):
         '''validates that the user has sufficient letters to make the move'''
         list_of_letters = list(self._word.get())
 
-        #compiles dictionary with values of letters of the word
-        letter_dict = {item: 1 for item in list_of_letters}
-        for item in list_of_letters:
-            letter_dict[item] += 1
-
-        #checks the word dictionary against current letters in hand
+        #creates dictionary where each value is equal to the number of those pieces in hand
+        player_letters = {item: self._current_player.current_hand().count(item) for item in self._current_player.current_hand()}
+        
+        #subtracts 1 from each value in the hand based on the letter in the word. 
+        #If the value goes below zero (insufficient letter pieces in the hand to make the word)
+        #or if the value is not in the dictionary (playing a letter you don't have)
+        #return a failed check
         for item in list_of_letters:
             try:
-                letter_dict[item] -= 1
-                if letter_dict[item] < 0:
+                player_letters[item] -= 1
+                if player_letters[item] < 0:
                     return False
             except:
                 return False
@@ -207,7 +208,7 @@ class GUI:
         temp_gamestate.make_move(column,row,word,movetype)
         valid = validation.execute(temp_gamestate._board)
 
-        return True if valid else False
+        return valid
 
         
 
